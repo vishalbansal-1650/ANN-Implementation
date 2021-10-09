@@ -18,3 +18,8 @@ conda activate ./envs
 ```bash
 pip install -r requiements.txt
 ```
+
+## Train the model
+```python
+python src/training.py
+```
