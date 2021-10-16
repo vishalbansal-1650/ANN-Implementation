@@ -23,3 +23,5 @@ logs:
  logs_dir: logs_dir
  general_logs: general_logs
  tensorboard_logs: tensorboard_logs
+ log_name: ANN.log
+ CKPT_path: model_ckpt.h5

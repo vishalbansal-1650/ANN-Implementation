@@ -20,6 +20,6 @@ pip install -r requiements.txt
 ```
 
 ## Train the model
-```python
+```bash
 python src/training.py
 ```

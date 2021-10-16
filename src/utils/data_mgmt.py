@@ -1,7 +1,10 @@
 import tensorflow as tf
+import logging
 
 def get_data(validation_datasize):
     mnist = tf.keras.datasets.mnist
+
+    logging.info("Preparing train and validation and test dataset")
 
     (x_train_full,y_train_full),(x_test,y_test) = mnist.load_data()
 
@@ -13,6 +16,11 @@ def get_data(validation_datasize):
     ## scaling the test dataset
 
     x_test = x_test/255.
+    logging.info(f"Train dataset shape: {x_train.shape}")
+    logging.info(f"Test dataset shape: {x_test.shape}")
+    logging.info(f"Validation dataset shape: {x_valid.shape}")
+
+    logging.info("Train - Test - Validation Dataset Created Successfully")
 
     return (x_train,y_train), (x_valid,y_valid), (x_test,y_test)
     
