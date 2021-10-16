@@ -131,4 +131,4 @@ dmypy.json
 .vscode/
 .idea/
 envs/
-.logs_dir/
+logs_dir/

@@ -21,7 +21,15 @@ def create_model(LOSS_FUNCTION, OPTIMIZER, METRICS, NUM_CLASSES):
 
     logging.info("Defining the model architecture")
 
-    def _get_model_summary(model):
+    def _get_model_summary(model)->str:
+        """[Get standard console output of model summary and convert it into string ]
+
+        Args:
+            model ([tf.keras model]): [untrained keras model]
+
+        Returns:
+            str: [model summary in string format]
+        """
         with io.StringIO() as stream:
             model.summary(print_fn = lambda x: stream.write(f"{x}\n"))
             summary_str = stream.getvalue()

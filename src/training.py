@@ -36,9 +36,13 @@ def training(config_path):
     os.makedirs(tb_log_path,exist_ok=True)
 
     CKPT_path = config["logs"]["CKPT_path"]
+    artifacts_dir = config["artifacts"]["artifacts_dir"]
     model_dir = config["artifacts"]["model_dir"]
 
-    CKPT_logpath = os.path.join(model_dir,CKPT_path)
+    model_dir_path = os.path.join(artifacts_dir, model_dir)
+    os.makedirs(model_dir_path, exist_ok=True)
+
+    CKPT_logpath = os.path.join(model_dir_path,CKPT_path)
 
     
     ## getting value of variable for model training
@@ -71,11 +75,7 @@ def training(config_path):
 
     ## saving model file
     model_name = config["artifacts"]["model_name"]
-    artifacts_dir = config["artifacts"]["artifacts_dir"]
     
-    model_dir_path = os.path.join(artifacts_dir, model_dir)
-    os.makedirs(model_dir_path, exist_ok=True)
-
     save_model(model, model_name, model_dir_path)
 
     ## plotting model performance
