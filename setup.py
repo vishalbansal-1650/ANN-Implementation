@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="src",
-    version="0.0.1",
+    version="0.0.2",
     author="vishalbansal-1650",
     description="It is an implmentation of ANN",
     long_description=long_description,

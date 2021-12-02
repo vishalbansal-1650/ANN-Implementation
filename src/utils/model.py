@@ -47,23 +47,6 @@ def create_model(LOSS_FUNCTION, OPTIMIZER, METRICS, NUM_CLASSES):
     return model_clf ## <<< untrained model
 
 
-def getCallbacks(logpath,CKPT_path)-> list:
-
-    ## defining tensorboard callbacks
-    tensorboard_cb = tf.keras.callbacks.TensorBoard(log_dir=logpath)
-
-    ## defining early stopping callbacks
-    early_stopping_cb = tf.keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)
-
-    ## defining model checkpointing callbacks
-
-    checkpointing_cb = tf.keras.callbacks.ModelCheckpoint(CKPT_path, save_best_only=True)
-
-    CALLBACKS_LIST = [tensorboard_cb, early_stopping_cb, checkpointing_cb]
-
-    return CALLBACKS_LIST
-
-
 def get_unique_filename(filename):
     unique_filename = time.strftime(f"%Y%m%d_%H%M%S_{filename}")
     return unique_filename

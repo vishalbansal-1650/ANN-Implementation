@@ -1,6 +1,7 @@
 from src.utils.common import read_config
 from src.utils.data_mgmt import get_data
-from src.utils.model import create_model,save_model,save_plot,getCallbacks
+from src.utils.model import create_model,save_model,save_plot
+from src.utils.callbacks import getCallbacks
 
 import argparse
 import os
@@ -20,31 +21,6 @@ def training(config_path):
     ## reading the configuration file
     config = read_config(config_path)
 
-    ## defining log related directory and log configuration
-
-    """logs_dir = config["logs"]["logs_dir"]
-    general_logs = config["logs"]["general_logs"]
-    log_name = config["logs"]["log_name"]
-    logs_path = os.path.join(logs_dir,general_logs)
-    os.makedirs(logs_path,exist_ok=True)"""
-
-    ### defining logging dir for tensorboard
-
-    logs_dir = config["logs"]["logs_dir"]
-    tensorboard_logs = config["logs"]["tensorboard_logs"]
-    tb_log_path = os.path.join(logs_dir,tensorboard_logs)
-    os.makedirs(tb_log_path,exist_ok=True)
-
-    CKPT_path = config["logs"]["CKPT_path"]
-    artifacts_dir = config["artifacts"]["artifacts_dir"]
-    model_dir = config["artifacts"]["model_dir"]
-
-    model_dir_path = os.path.join(artifacts_dir, model_dir)
-    os.makedirs(model_dir_path, exist_ok=True)
-
-    CKPT_logpath = os.path.join(model_dir_path,CKPT_path)
-
-    
     ## getting value of variable for model training
 
     validation_datasize = config["params"]["validation_datasize"]
@@ -58,19 +34,29 @@ def training(config_path):
     ## preparing data
     (x_train,y_train),(x_valid,y_valid),(x_test,y_test) = get_data(validation_datasize)
 
-
     ## creating model architecture
     model = create_model(LOSS_FUNCTION, OPTIMIZER, METRICS, NUM_CLASSES)
 
     VALIDATION_SET = (x_valid, y_valid)
 
+    ### defining logging dir for tensorboard
+
+    logs_dir = config["logs"]["logs_dir"]
+    artifacts_dir = config["artifacts"]["artifacts_dir"]
+    model_dir = config["artifacts"]["model_dir"]
+
+    model_dir_path = os.path.join(artifacts_dir, model_dir)
+    os.makedirs(model_dir_path, exist_ok=True)
+
 
     ## training model
-    logging.info("Training the model on train data set")
+    
+    logging.info("Getting the callbacks details...")
+    CALLBACKS_LIST = getCallbacks(config,x_train)
 
-    CALLBACKS_LIST = getCallbacks(tb_log_path,CKPT_logpath)
+    logging.info("Training the model on train data set")
     model_history = model.fit(x=x_train, y=y_train, epochs=EPOCHS, validation_data= VALIDATION_SET, batch_size=BATCH_SIZE, callbacks=CALLBACKS_LIST)
-    logging.info(f"Model training details: \n{pd.DataFrame(model_history.history)}")
+   
     logging.info("Model Trained successfully")
 
     ## saving model file
